@@ -18,8 +18,11 @@ For this assignment there were two requirements as given below:
 2.	Design Climate App
 
     Design a Flask API based on the queries that you just developed. To do so, use Flask to create your routes as follows:
+  	
     Start at the homepage.
+  	
     List all the available routes.
+  	
     /api/v1.0/precipitation
   	
         •	Convert the query results to a dictionary by using date as the key and prcp as the value.
