@@ -6,7 +6,7 @@ For this assignment there were two requirements as given below:
 1.	Analyze and Explore Climate Data by using Python and SQL Alchemy to do a basic climate analysis and data exploration of climate database. Use SQL Alchemy ORM queries, Pandas, and Matplotlib to complete the below 
     requirements:
 
-   •	Precipitation analysis:
+           •	Precipitation analysis:
 
         o	Find the most recent date in the dataset.
         o	Using that date, get the previous 12 months of precipitation data by querying the previous 12 months of data.
