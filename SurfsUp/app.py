@@ -5,6 +5,8 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func, distinct
 from flask import Flask, jsonify
+import pandas as pd
+from datetime import timedelta
 
 #################################################
 # Database Setup
@@ -20,6 +22,15 @@ Base.prepare(engine, reflect=True)
 # Save reference to the table
 measurement = Base.classes.measurement
 station = Base.classes.station
+
+# Create the session (link) from Python to the DB
+session = Session(engine)
+# Find the latest date and the date 12 months from latest date
+latest_date = latest_date = session.query(func.max(measurement.date)).first()[0]
+start_date = pd.to_datetime(latest_date) - timedelta(days=365)
+start_date = start_date.strftime("%Y-%m-%d")
+# Close session
+session.close()
 
 #################################################
 # Flask Setup
@@ -49,7 +60,7 @@ def precipitation():
     # Create the session (link) from Python to the DB
     session = Session(engine)
     # Query 
-    results = session.query(measurement.date, measurement.prcp).filter(measurement.date >= '2016-08-23').all()
+    results = session.query(measurement.date, measurement.prcp).filter(measurement.date >= start_date).all()
     # Close session
     session.close()
     # Create a dictionary and append to a list
@@ -81,7 +92,7 @@ def tobs():
     # Create the session (link) from Python to the DB
     session = Session(engine)
     # Query 
-    results = session.query(measurement.date, measurement.tobs).filter(measurement.station == 'USC00519281').filter(measurement.date >= '2016-08-23').all()
+    results = session.query(measurement.date, measurement.tobs).filter(measurement.station == 'USC00519281').filter(measurement.date >= start_date).all()
     # Close session
     session.close()
     # Create a dictionary and append to a list
